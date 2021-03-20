@@ -230,7 +230,8 @@ public class Student extends User
      * @return Student  A record from the DB
      * @throws NotFoundException  throws an exception if the user cannot be found, or other implicit data errors
      */
-    public static Student retrieve(long id) throws NotFoundException, SQLException, InvalidUserDataException, InvalidIdException, InvalidNameException, InvalidPasswordException {
+    public static Student retrieve(long id) throws NotFoundException, SQLException, InvalidUserDataException, InvalidIdException, InvalidNameException, InvalidPasswordException
+    {
         return StudentDA.retrieve(id);
     }
 
@@ -239,7 +240,8 @@ public class Student extends User
      * @return aStudent   Object containing the relevant data
      * @throws InvalidUserDataException  throws an exception if the user data entry is invalid
      */
-    public boolean create() throws InvalidUserDataException, DuplicateException, InvalidIdException, InvalidNameException, InvalidPasswordException, SQLException, NoSuchAlgorithmException {
+    public boolean create() throws InvalidUserDataException, DuplicateException, InvalidIdException, InvalidNameException, InvalidPasswordException, SQLException, NoSuchAlgorithmException
+    {
         return StudentDA.create(this);
     }
 
@@ -248,7 +250,8 @@ public class Student extends User
      * @return          number of rows affected
      * @throws NotFoundException    throws an exception if the user cannot be found
      */
-    public  int update() throws NotFoundException, InvalidUserDataException, InvalidIdException, InvalidNameException, InvalidPasswordException, SQLException {
+    public  int update() throws NotFoundException, InvalidUserDataException, InvalidIdException, InvalidNameException, InvalidPasswordException, SQLException
+    {
         return StudentDA.update(this);
     }
 
@@ -257,7 +260,20 @@ public class Student extends User
      * @return          number of rows affected
      * @throws NotFoundException   throws an exception if the user cannot be found
      */
-    public int delete() throws NotFoundException, InvalidUserDataException, InvalidIdException, InvalidNameException, InvalidPasswordException, SQLException {
+    public int delete() throws NotFoundException, InvalidUserDataException, InvalidIdException, InvalidNameException, InvalidPasswordException, SQLException
+    {
         return  StudentDA.delete(this);
+    }
+
+    /**
+     * Uses StudentDA authenticate to authenticate the users information is correct
+     * @param studentNum         Student number as a long
+     * @param password           password as a String
+     * @return                   Student object if studentNum and password match
+     * @throws NotFoundException
+     */
+    public Student authenticate(long studentNum, String password) throws NotFoundException, InvalidIdException, SQLException, InvalidNameException, InvalidPasswordException, InvalidUserDataException
+    {
+        return StudentDA.authenticate(studentNum, password);
     }
 }

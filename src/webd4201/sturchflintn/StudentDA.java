@@ -430,8 +430,17 @@ public class StudentDA
         return records;
     }
 
+    /**
+     *
+     * @param studentNum         users student number entered as a long
+     * @param password           user's password entered as a string
+     * @return aStudent          as an object
+     * @throws NotFoundException throws an exception if the user cannot be found
+     */
     public static Student authenticate(long studentNum, String password) throws NotFoundException, InvalidIdException, SQLException, InvalidNameException, InvalidPasswordException, InvalidUserDataException {
 
+        try
+        {
 
         if (retrieve(studentNum) != null) //if the retrieve doesn't fail
         {
@@ -442,7 +451,18 @@ public class StudentDA
             if (aStudent.getPassword().equals(Student.hashPassword(password)))
             {
                 System.out.println("This password is correct");
+                return aStudent;
             }
+            else
+            {
+                throw new InvalidPasswordException("The password is incorrect. Please try again.");
+            }
+        }
+        }
+        catch(NotFoundException e)
+        {
+            throw new NotFoundException("Student with id  " + aStudent.getId()
+                    + " cannot be found.");
         }
 
 

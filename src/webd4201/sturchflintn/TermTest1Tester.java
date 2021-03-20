@@ -28,7 +28,8 @@ public class TermTest1Tester {
             Student.initialize(c);
 
             Student newStudent = StudentDA.authenticate(100222222, "password");
-            //Student twoStudent = StudentDA.authenticate(100111121, "p");
+            Student twoStudent = StudentDA.authenticate(100111111, "p");
+            System.out.println(twoStudent.toString());
             /*
             try {
                 System.out.println("\nAttempt to retrieve a faculty that should does not exist YET (Id: " + possibleId + ")");
