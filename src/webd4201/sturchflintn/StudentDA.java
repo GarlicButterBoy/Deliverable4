@@ -429,4 +429,23 @@ public class StudentDA
         { System.out.println(e.getMessage());}
         return records;
     }
+
+    public static Student authenticate(long studentNum, String password) throws NotFoundException, InvalidIdException, SQLException, InvalidNameException, InvalidPasswordException, InvalidUserDataException {
+
+
+        if (retrieve(studentNum) != null) //if the retrieve doesn't fail
+        {
+            Student aStudent = retrieve(studentNum); //then pull the data for comparison
+            System.out.println("This student was retrieved and equals: \n" + aStudent.toString());
+            //System.out.println(aStudent.getPassword());
+            //System.out.println(Student.hashPassword(password));
+            if (aStudent.getPassword().equals(Student.hashPassword(password)))
+            {
+                System.out.println("This password is correct");
+            }
+        }
+
+
+        return aStudent;
+    }
 }

@@ -15,14 +15,21 @@ public class TermTest1Tester {
         java.util.Date today = cal.getTime();
         long possibleId = 100987654;
         try {
-            System.out.println("\nCreate a Faculty user to insert/delete later in the program.\n");
 
-            aFaculty = new Faculty(possibleId, "password", "Darren", "Puffer", "darren.puffer@durhamcollege.ca",
-                    today, today, true, 'f', "BITM", "Business, IT & Management", "C315", 2044);
-            aFaculty.dump();
+
+
+           // System.out.println("\nCreate a Faculty user to insert/delete later in the program.\n");
+
+           // aFaculty = new Faculty(possibleId, "password", "Darren", "Puffer", "darren.puffer@durhamcollege.ca",
+           //         today, today, true, 'f', "BITM", "Business, IT & Management", "C315", 2044);
+           // aFaculty.dump();
 
             c = DatabaseConnect.initialize();
-            Faculty.initialize(c);
+            Student.initialize(c);
+
+            Student newStudent = StudentDA.authenticate(100222222, "password");
+            //Student twoStudent = StudentDA.authenticate(100111121, "p");
+            /*
             try {
                 System.out.println("\nAttempt to retrieve a faculty that should does not exist YET (Id: " + possibleId + ")");
                 aFaculty = Faculty.retrieve(possibleId);
@@ -72,6 +79,7 @@ public class TermTest1Tester {
                 } catch (NotFoundException e) {
                     System.out.println(e.getMessage());
                 }
+                */
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
