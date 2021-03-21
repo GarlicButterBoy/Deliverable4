@@ -20,11 +20,11 @@ public class LoginServlet extends HttpServlet
      * @throws IOException
      */
     public void doPost(HttpServletRequest request,
-                            HttpServletResponse response) 
-					throws ServletException, IOException
+                       HttpServletResponse response)
+            throws ServletException, IOException
     {
-	   	  
-	   	//CREATE A TEXT FILE 
+
+        //CREATE A TEXT FILE
 	   	/*String logFile = "./test_log.log";
 	    File f = new File(logFile);
 	    PrintStream printStream = new PrintStream(new BufferedOutputStream(new FileOutputStream(f)), true);
@@ -33,14 +33,14 @@ public class LoginServlet extends HttpServlet
 	    System.out.println("Log started: " + new java.util.Date());
 	    */
         try
-        { 
+        {
             // connect to database
             Connection c = DatabaseConnect.initialize();
             Student.initialize(c);
             HttpSession session = request.getSession(true);
             String id = new String();
             String password = new String();
-            try 
+            try
             {   // retrieve data from DB
                 id = request.getParameter( "Login" ); //this is the name of the text input box on the form
                 password = request.getParameter( "Password" ); //this is the name of the text input box on the form
@@ -48,16 +48,16 @@ public class LoginServlet extends HttpServlet
 
                 Student aStudent = Student.authenticate(validID, password); //if the ID exists, AND the password is correct
                 // if the Student was found and retrieved from the db
-				//put the found Student onto the session
+                //put the found Student onto the session
                 session.setAttribute("aStudent", aStudent);
                 session.setAttribute("FName", aStudent.getFirstName());
-				//empty out any errors if there were some
+                //empty out any errors if there were some
                 session.setAttribute("errors", "");
-         
+
                 // redirect the user to a JSP
                 response.sendRedirect("./dashboard.jsp");
                 session.setAttribute("message", "Welcome Back " + session.getAttribute("FName") + "!");
-            }catch( NotFoundException nfe)
+            }catch( NotFoundException nfe) //incorrect login information
             {
                 long validID = Long.parseLong(id);
                 //sending errors to the page thru the session
@@ -71,24 +71,55 @@ public class LoginServlet extends HttpServlet
                 }
                 else
                 {
-                  errorBuffer.append("Invalid login id.</strong>");
-                  session.setAttribute("id", "");
+                    errorBuffer.append("Invalid login id.</strong>");
+                    session.setAttribute("id", "");
                 }
                 session.setAttribute("errors", errorBuffer.toString());
                 response.sendRedirect("./login.jsp");
-            
+
+                //for the first deliverable you will have to check if there was a problem
+                //with just the password, or login id and password
+                //this will require a special method e.g. public static boolean isExistingLogin(String arg);
+            }
+        }
+        catch (Exception e) //not connected OR incorrect login information
+        {
+            HttpSession session = request.getSession(true);
+
+            String id = new String();
+            String password = new String();
+
+            System.out.println(e);
+
+            id = request.getParameter( "Login" ); //this is the name of the text input box on the form
+            password = request.getParameter( "Password" ); //this is the name of the text input box on the form
+
+            long validID = Long.parseLong(id);
+            //sending errors to the page thru the session
+            StringBuffer errorBuffer = new StringBuffer();
+            errorBuffer.append("<strong>Your sign in information is not valid.<br/>");
+            errorBuffer.append("Please try again.</strong>");
+            try {
+                if(Student.retrieve(validID) != null)
+                {
+                    session.setAttribute("id", validID);
+                    errorBuffer.append("Invalid Password.</strong>");
+                }
+                else
+                {
+                    errorBuffer.append("Invalid login id.</strong>");
+                    session.setAttribute("id", "");
+                }
+            } catch (Exception e1)
+            {
+                e1.printStackTrace();
+            }
+            session.setAttribute("errors", errorBuffer.toString());
+            response.sendRedirect("./login.jsp");
+
             //for the first deliverable you will have to check if there was a problem
             //with just the password, or login id and password
             //this will require a special method e.g. public static boolean isExistingLogin(String arg);
-            }
-        }    
-   	 catch (Exception e) //not connected
-        {
-            System.out.println(e);
-            String line1="<h2>A network error has occurred!</h2>";
-            String line2="<p>Please notify your system " +
-                                                    "administrator and check log. "+e.toString()+"</p>";
-            formatErrorPage(line1, line2,response);
         }
     }
 
@@ -100,8 +131,9 @@ public class LoginServlet extends HttpServlet
      * @throws IOException
      */
     public void doGet(HttpServletRequest request,
-                            HttpServletResponse response)
-                                    throws ServletException, IOException {
+                      HttpServletResponse response)
+            throws ServletException, IOException
+    {
         doPost(request, response);
     }
 
@@ -113,7 +145,7 @@ public class LoginServlet extends HttpServlet
      * @throws IOException
      */
     public void formatErrorPage( String first, String second,
-            HttpServletResponse response) throws IOException
+                                 HttpServletResponse response) throws IOException
     {
         PrintWriter output = response.getWriter();
         response.setContentType( "text/html" );
