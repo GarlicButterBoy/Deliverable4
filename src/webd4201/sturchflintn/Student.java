@@ -272,7 +272,7 @@ public class Student extends User
      * @return                   Student object if studentNum and password match
      * @throws NotFoundException
      */
-    public Student authenticate(long studentNum, String password) throws NotFoundException, InvalidIdException, SQLException, InvalidNameException, InvalidPasswordException, InvalidUserDataException
+    public static Student authenticate(long studentNum, String password) throws NotFoundException, InvalidIdException, SQLException, InvalidNameException, InvalidPasswordException, InvalidUserDataException
     {
         return StudentDA.authenticate(studentNum, password);
     }
