@@ -47,7 +47,8 @@ public class LoginServlet extends HttpServlet
                 session.setAttribute("errors", "");
          
                 // redirect the user to a JSP
-                response.sendRedirect("./customerWelcome.jsp");
+                response.sendRedirect("./dashboard.jsp");
+                session.setAttribute("message", "Welcome Back " + aStudent.getFirstName() + "!");
             }catch( NotFoundException nfe)
             {
                 long validID = Long.parseLong(id);
@@ -63,7 +64,7 @@ public class LoginServlet extends HttpServlet
                 else
                 {
                   errorBuffer.append("Invalid login id.</strong>");
-                  session.setAttribute("login", "");
+                  session.setAttribute("id", "");
                 }
                 session.setAttribute("errors", errorBuffer.toString());
                 response.sendRedirect("./login.jsp");
