@@ -1,5 +1,5 @@
 // UpdateCustomerServlet.java
-
+//DOES NOT DO ANYTHING RIGHT NOW
 
 package webd4201.sturchflintn;
 

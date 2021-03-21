@@ -6,7 +6,6 @@
  */
 package webd4201.sturchflintn;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -431,7 +430,7 @@ public class StudentDA
     }
 
     /**
-     *
+     * Authenticate Method is used to take a students id and password, if both match a student in the db, then return that student
      * @param studentNum         users student number entered as a long
      * @param password           user's password entered as a string
      * @return aStudent          as an object

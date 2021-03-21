@@ -12,6 +12,13 @@ import java.sql.Connection;
 public class LoginServlet extends HttpServlet
 {
 
+    /**
+     * Post method for the Login Servlet
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void doPost(HttpServletRequest request,
                             HttpServletResponse response) 
 					throws ServletException, IOException
@@ -40,15 +47,16 @@ public class LoginServlet extends HttpServlet
                 long validID = Long.parseLong(id);
 
                 Student aStudent = Student.authenticate(validID, password); //if the ID exists, AND the password is correct
-                // if the Customer was found and retrieved from the db
-				//put the found Customer onto the session
+                // if the Student was found and retrieved from the db
+				//put the found Student onto the session
                 session.setAttribute("aStudent", aStudent);
+                session.setAttribute("FName", aStudent.getFirstName());
 				//empty out any errors if there were some
                 session.setAttribute("errors", "");
          
                 // redirect the user to a JSP
                 response.sendRedirect("./dashboard.jsp");
-                session.setAttribute("message", "Welcome Back " + aStudent.getFirstName() + "!");
+                session.setAttribute("message", "Welcome Back " + session.getAttribute("FName") + "!");
             }catch( NotFoundException nfe)
             {
                 long validID = Long.parseLong(id);
@@ -83,12 +91,27 @@ public class LoginServlet extends HttpServlet
             formatErrorPage(line1, line2,response);
         }
     }
+
+    /**
+     * doGet Method for Login Servlet
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     public void doGet(HttpServletRequest request,
                             HttpServletResponse response)
                                     throws ServletException, IOException {
         doPost(request, response);
     }
 
+    /**
+     * formatErrorPage Method for LoginServlet
+     * @param first
+     * @param second
+     * @param response
+     * @throws IOException
+     */
     public void formatErrorPage( String first, String second,
             HttpServletResponse response) throws IOException
     {
